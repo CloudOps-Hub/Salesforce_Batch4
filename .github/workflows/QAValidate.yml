@@ -22,12 +22,7 @@ jobs:
         run: | 
           echo "${{secrets.JWT_KEY}}" > server.key
           
-          sf org login jwt \
-            --client-id ${{secrets.CLIENTID}}
-            --jwt-key-file server.key \
-            --username ${{secrets.QAUSERNAME}} \
-            --instance-url ${{secrets.URL}} \
-            --alias b4qa
+          sf org login jwt --client-id ${{secrets.CLIENTID}} --jwt-key-file server.key --username ${{secrets.QAUSERNAME}} --instance-url ${{secrets.URL}} --alias b4qa
       - name: Validate Salesforce
         run: | 
           sf project deploy start \
