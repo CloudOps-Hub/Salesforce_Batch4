@@ -30,7 +30,7 @@ jobs:
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
-            --wait 60
+            --dry-run --wait 60
 
     
 
