@@ -1,5 +1,5 @@
 
-name: QA Validation
+name: QA Deployment
 on:
   push:
     branches:
@@ -32,6 +32,7 @@ jobs:
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
+            --ignore-conflicts \
             --wait 60
 
     
