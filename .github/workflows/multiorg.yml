@@ -53,7 +53,7 @@ jobs:
 
   deploy-uat:
     needs: deploy-qa
-    if: ${{ github.event.inputs.target == 'UAT' }}
+    if: ${{ github.event.inputs.target == 'QA' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -93,7 +93,7 @@ jobs:
   
   deploy-prod:
     needs: deploy-uat
-    if: ${{ github.event.inputs.target == 'Prod' }}
+    if: ${{ github.event.inputs.target == 'QA' }}
     runs-on: ubuntu-latest
     
     steps:
