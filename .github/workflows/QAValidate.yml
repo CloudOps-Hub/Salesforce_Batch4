@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.1
+        with:
+          fetch-depth: 0 # Needed for git history
         
       - name: Setup Node.js environment
         uses: actions/setup-node@v6.1.0
@@ -35,12 +37,10 @@ jobs:
         run: |
           echo "Running Salesforce Code Scanner..."
           mkdir -p reports
-          sf scanner run \
-            --format html \
+          sf code-analyzer run \
             --target "force-app" \
-            --engine "eslint,pmd,cpd" \
-            --category "Design,Best Practices,Code Style,Performance,Security" \
-            --outfile reports/scan-report.html
+            --rule-selector Recommended \
+            --output-file reports/scan-report.html
             
       - name: Upload CLI Report
         uses: actions/upload-artifact@v6.0.0
