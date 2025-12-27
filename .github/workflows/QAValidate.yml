@@ -19,8 +19,8 @@ jobs:
           npm install -g @salesforce/cli
       
       - name: Install SF SGD
-        run: echo "y" | sf pulgins install sfdx-git-delta
-
+        run: echo y | sf plugins install sfdx-git-delta
+        
       - name: Generate the Package.xml
         run: |
           mkdir delta
