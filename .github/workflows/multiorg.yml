@@ -48,6 +48,7 @@ jobs:
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
+            --ignore-conflicts \
             --wait 60
 
   deploy-uat:
@@ -87,6 +88,7 @@ jobs:
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
+            --ignore-conflicts \
             --wait 60
   
   deploy-prod:
@@ -126,6 +128,7 @@ jobs:
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
+            --ignore-conflicts \
             --wait 60
 
 
