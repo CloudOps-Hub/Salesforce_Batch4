@@ -30,7 +30,7 @@ jobs:
            --output "./delta" --ignore-whitespace -d || true
 
           echo "----Package.xml-----"
-          cat delt/package/package.xml || echo "No Package.xml generated"
+          cat delta/package/package.xml || echo "No Package.xml generated"
           ls delta
           
       - name: Run SF Analysis
