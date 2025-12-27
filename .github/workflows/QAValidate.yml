@@ -17,16 +17,45 @@ jobs:
       - name: Install SF CLI
         run: |
           npm install -g @salesforce/cli
+      
+      - name: Install SF SGD
+        run: echo "y" | sf pulgins install sfdx-git-delta
 
+      - name: Generate the Package.xml
+        run: |
+          mkdir delta
+          sf sgd source delta --to "HEAD" --from  "HEAD~1" \
+           --output "./delta" --ignore-whitespace -d -i .sgdignore
+
+          echo "----Package.xml-----"
+          cat delt/package/package.xml || echo "No Package.xml generated"
+          ls delta
+      - name: Run SF Analysis
+      - run: |
+          echo "Running Salesforce Code Scanner..."
+          mkdir -p reports
+          sf scanner run \
+            --format html \
+            --target "force-app" \
+            --engine "eslint,pmd,cpd" \
+            --category "Design,Best Practices,Code Style,Performance,Security" \
+            --outfile reports/scan-report.html
+            
+      - name: Upload CLI Report
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: Cli-Scan-Report
+          path: reports/scan-report.html
+            
       - name: Authenticate SF
         run: | 
           echo "${{secrets.JWT_KEY}}" > server.key
-          
           sf org login jwt --client-id ${{secrets.CLIENTID}} --jwt-key-file server.key --username ${{secrets.QAUSERNAME}} --instance-url ${{secrets.URL}} --alias b4qa
+      
       - name: Validate Salesforce
         run: | 
           sf project deploy start \
-            --source-dir force-app \
+            --manifest delt/package/package.xml \
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
