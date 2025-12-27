@@ -30,8 +30,9 @@ jobs:
           echo "----Package.xml-----"
           cat delt/package/package.xml || echo "No Package.xml generated"
           ls delta
+          
       - name: Run SF Analysis
-      - run: |
+        run: |
           echo "Running Salesforce Code Scanner..."
           mkdir -p reports
           sf scanner run \
