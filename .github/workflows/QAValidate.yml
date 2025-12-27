@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir delta
           sf sgd source delta --to "HEAD" --from  "HEAD~1" \
-           --output "./delta" --ignore-whitespace -d -i .sgdignore
+           --output "./delta" --ignore-whitespace -d || true
 
           echo "----Package.xml-----"
           cat delt/package/package.xml || echo "No Package.xml generated"
