@@ -1,1 +1,16 @@
+name: Salesforce MultiOrg
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Select Target Environment"
+        required: true
+        default: "QA"
+        type: choice
+        options:
+          - QA
+          - UAT
+          - Prod
+        
+        
 
