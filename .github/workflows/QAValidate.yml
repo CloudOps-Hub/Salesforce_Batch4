@@ -56,7 +56,7 @@ jobs:
       - name: Validate Salesforce
         run: | 
           sf project deploy start \
-            --manifest delt/package/package.xml \
+            --manifest delta/package/package.xml \
             --target-org b4qa \
             --test-level NoTestRun \
             --verbose \
