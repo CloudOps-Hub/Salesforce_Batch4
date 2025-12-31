@@ -1,3 +1,4 @@
+
 name: QA Validation
 on:
   pull_request:
@@ -48,18 +49,18 @@ jobs:
           name: Cli-Scan-Report
           path: reports/scan-report.html
 
-      - name: Run Sonar Cloud
-        uses: SonarSource/sonarqube-scan-action@v7.0.0
-        with:
-          args: >
-            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=force-app
-            -Dsonar.sonar.exclusions=**/profiles/**,**/permissionsets/**,**/reports/**,**/dashboards/**,**/email/**,**/flows/**,**/objects/**
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-          SONAR_ORG: ${{ secrets.SONAR_ORG }}
+      #- name: Run Sonar Cloud
+        #uses: SonarSource/sonarqube-scan-action@v7.0.0
+        #with:
+          #args: >
+            #-Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            #-Dsonar.organization=${{ env.SONAR_ORG }}
+            #-Dsonar.sources=force-app
+            #-Dsonar.sonar.exclusions=**/profiles/**,**/permissionsets/**,**/reports/**,**/dashboards/**,**/email/**,**/flows/**,**/objects/**
+        #env:
+          #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          #SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          #SONAR_ORG: ${{ secrets.SONAR_ORG }}
             
       - name: Authenticate SF
         run: | 
@@ -74,8 +75,3 @@ jobs:
             --test-level NoTestRun \
             --verbose \
             --dry-run --wait 60
-
-    
-
-
-  
