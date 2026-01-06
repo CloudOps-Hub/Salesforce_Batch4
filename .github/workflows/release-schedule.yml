@@ -23,16 +23,16 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const owner = context.repo.owner; # Reading the owner and repo and fethcing upto 100PRs
+            const owner = context.repo.owner;
             const repo = context.repo.repo;
             const pulls = await github.rest.pulls.list({
               owner, repo, state: 'open', per_page: 100
             });
             const selected = pulls.data.filter(p => p.milestone && p.milestone.number);
             core.setOutput('count', selected.length);
-            core.setOutput('pr_numbers', selected.map(p=>p.number).join(',')); #12, 13, 14
-            core.setOutput('pr_heads', selected.map(p=>p.head.ref).join(',')); #develop, staging
-            core.setOutput('pr_head_shas', selected.map(p=>p.head.sha).join(',')); #Commit Id Tragetbranch
+            core.setOutput('pr_numbers', selected.map(p=>p.number).join(',')); 
+            core.setOutput('pr_heads', selected.map(p=>p.head.ref).join(',')); 
+            core.setOutput('pr_head_shas', selected.map(p=>p.head.sha).join(','));
 
       - name: Create release branch
         if: steps.findprs.outputs.count != '0'
