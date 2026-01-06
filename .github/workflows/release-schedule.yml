@@ -90,7 +90,7 @@ jobs:
             const pr = await github.rest.pulls.create({
               owner, repo,
               head: release_branch,
-              base: 'sit',
+              base: 'integration',
               title: `Release: ${release_branch} -> sit`,
               body: `Automated release branch created with PRs: ${{ steps.findprs.outputs.pr_numbers }}`
             });
