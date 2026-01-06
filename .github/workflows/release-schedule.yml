@@ -27,7 +27,7 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const pulls = await github.rest.pulls.list({
-              owner, repo, state: 'open', per_page: 100
+              owner, repo, state: 'closed', per_page: 100
             });
             const selected = pulls.data.filter(p => p.milestone && p.milestone.number);
             core.setOutput('count', selected.length);
