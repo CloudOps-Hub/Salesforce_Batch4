@@ -22,6 +22,7 @@ jobs:
         id: findprs  # Id wil be used to get the refernce the outputs of the steps
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GH_PAT }}
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
