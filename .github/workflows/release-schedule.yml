@@ -51,8 +51,9 @@ jobs:
         if: steps.findprs.outputs.count != '0'
         env:
           RELEASE_BRANCH: ${{ steps.create_branch.outputs.release_branch }}
+          github-token: ${{ secrets.GH_PAT }}
         run: |
-          prs="${{ steps.findprs.outputs.pr_numbers }}" #12
+          prs="${{ steps.findprs.outputs.pr_numbers }}"
           echo "PRs to merge: $prs"
           IFS=',' read -ra arr <<< "$prs"
           for pr in "${arr[@]}"; do
