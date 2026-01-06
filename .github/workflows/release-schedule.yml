@@ -51,7 +51,7 @@ jobs:
         if: steps.findprs.outputs.count != '0'
         env:
           RELEASE_BRANCH: ${{ steps.create_branch.outputs.release_branch }}
-          GH_PAT: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           prs="${{ steps.findprs.outputs.pr_numbers }}"
           echo "PRs to merge: $prs"
