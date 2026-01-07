@@ -1,0 +1,136 @@
+name: Salesforce MultiOrg
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Select Target Environment"
+        required: true
+        default: "QA"
+        type: choice
+        options:
+          - QA
+          - UAT
+          - Prod
+jobs:
+  deploy-qa:
+    if: ${{ github.event.inputs.target == 'QA' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+        
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v6.1.0
+
+    - name: Install SF CLI
+      run: |
+        npm install -g @salesforce/cli
+        
+    - name: Authenticate SF
+      run: | 
+        echo "${{secrets.JWT_KEY}}" > server.key  
+        sf org login jwt --client-id ${{secrets.CLIENTID}} --jwt-key-file server.key --username ${{secrets.QAUSERNAME}} --instance-url ${{secrets.URL}} --alias b4qa
+    
+    - name: Validate Salesforce
+      run: | 
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --dry-run --wait 60
+            
+    - name: Deploy Salesforce
+      run: |
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --ignore-conflicts \
+            --wait 60
+
+  deploy-uat:
+    needs: deploy-qa
+    if: ${{ github.event.inputs.target == 'QA' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+        
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v6.1.0
+
+    - name: Install SF CLI
+      run: |
+        npm install -g @salesforce/cli
+        
+    - name: Authenticate SF
+      run: | 
+        echo "${{secrets.JWT_KEY}}" > server.key  
+        sf org login jwt --client-id ${{secrets.CLIENTID}} --jwt-key-file server.key --username ${{secrets.QAUSERNAME}} --instance-url ${{secrets.URL}} --alias b4qa
+    
+    - name: Validate Salesforce
+      run: | 
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --dry-run --wait 60
+            
+    - name: Deploy Salesforce
+      run: |
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --ignore-conflicts \
+            --wait 60
+  
+  deploy-prod:
+    needs: deploy-uat
+    if: ${{ github.event.inputs.target == 'QA' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+        
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v6.1.0
+
+    - name: Install SF CLI
+      run: |
+        npm install -g @salesforce/cli
+        
+    - name: Authenticate SF
+      run: | 
+        echo "${{secrets.JWT_KEY}}" > server.key  
+        sf org login jwt --client-id ${{secrets.CLIENTID}} --jwt-key-file server.key --username ${{secrets.QAUSERNAME}} --instance-url ${{secrets.URL}} --alias b4qa
+    
+    - name: Validate Salesforce
+      run: | 
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --dry-run --wait 60
+            
+    - name: Deploy Salesforce
+      run: |
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --ignore-conflicts \
+            --wait 60
+
+
+        
+

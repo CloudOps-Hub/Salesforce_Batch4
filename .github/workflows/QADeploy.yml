@@ -1,0 +1,41 @@
+
+name: QA Deployment
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+        
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v6.1.0
+
+      - name: Install SF CLI
+        run: |
+          npm install -g @salesforce/cli
+
+      - name: Authenticate SF
+        run: | 
+          echo "${{secrets.JWT_KEY}}" > server.key
+          
+          sf org login jwt --client-id ${{secrets.CLIENTID}} --jwt-key-file server.key --username ${{secrets.QAUSERNAME}} --instance-url ${{secrets.URL}} --alias b4qa
+      
+      - name: Deploy Salesforce Components
+        run: | 
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org b4qa \
+            --test-level NoTestRun \
+            --verbose \
+            --ignore-conflicts \
+            --wait 60
+
+    
+
+
+  
